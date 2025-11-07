@@ -1,0 +1,72 @@
+## Assignment: Compare Athletes From Your Favorite College Sport
+
+Using modern frameworks, ingest player statistics for your favorite college sport from ESPN's hidden API, store them in Supabase, and create an interactive player comparison page with visualizations. Sound fun?
+
+Your task (~2 hours) is to:
+
+- Fetch sports data for your favorite college sport.
+- Persist this data with an appropriate PostgresSQL schema.
+- Display player comparisons or visualizations of your choosing using the ingested data.
+- Discuss your solution on a call with the team.
+
+Why?
+
+- Assess how you work with Next.js and the Supabase local development experience.
+- See how you feel about working with raw sports data.
+- Give you 1:1 time collaborating with the team.
+
+To get you started, we've provided a scaffold for the player comparison page and everything you need to run the app and database locally.
+
+Below are detailed requirements and resources to guide you:
+
+---
+
+### Requirements
+
+#### 1. Data Ingestion
+
+- Hardcode the sport/league you want to fetch players for in the `apps/web/app/api/data-ingestion/route.ts` file in the `SPORT_CONFIG` object.
+- Create an endpoint to fetch player statistics for your favorite college sport for the current season from ESPN's hidden API.
+- Use ESPN hidden API endpoints to retrieve detailed player stats (specific stats will depend on your chosen sport).
+- Store the fetched data in Supabase, ensuring the task handles errors or missing data gracefully.
+
+Don't worry about running these functions in a CRON job or with any other scheduling system. You can just run them manually as needed.
+
+#### 2. Database Schema in Supabase
+
+- Design a schema to store player statistics (appropriate for your chosen sport) associated with players in the database.
+- Ensure the schema supports efficient querying for the frontend comparison feature.
+
+#### 3. Player Comparison Page in Next.js
+
+- Start with the provided scaffold at `apps/web/app/page.tsx`, which includes a basic layout (header, player selection area, and placeholders for content).
+- Implement a feature where users can select multiple players from your chosen college sport (e.g., via a dropdown or search input).
+- Fetch the selected players' stats from Supabase and display them in the scaffolded comparison table.
+- Add any other comparisons or visualizations of your choosing. [Recharts](https://recharts.org/en-US/api/BarChart) is a great library for this.
+
+---
+
+### Starter Code
+
+We've provided a starter repository with the following:
+
+- **Next.js Client**: A page at `apps/web/app/page.tsx` with a header ("Player Comparison") and empty placeholders for player selection and data display.
+
+- **Data Ingestion API**: Scaffolded Next.js route at `apps/web/app/api/data-ingestion/route.ts` to fetch player data from ESPN and store it in Supabase.
+
+- **Server Actions**: Scaffolded Next.js server actions at `apps/web/app/api/actions/index.ts` so the client can fetch player data.
+
+- **Supabase Schema**: A basic `players` table. Feel free to extend these if needed.
+
+Your job is to build on this starter code by implementing the full data pipeline and frontend functionality.
+
+---
+
+### Submission
+
+- Fork this repository into your own _private_ repository.
+- Create a new branch for your work
+- Code the stuff
+- Commit your changes and push the branch to your fork
+- Submit a pull request (include any details about your implementation)
+- Give access to @DropbackHQ for review!
