@@ -10,11 +10,12 @@
   },
   "devDependencies": {
     "prettier": "^3.5.3",
+    "supabase": "^2.54.11",
     "turbo": "^2.4.4",
     "typescript": "5.8.2"
   },
   "engines": {
-    "node": ">=18"
+    "node": ">=20"
   },
   "packageManager": "npm@10.2.4",
   "workspaces": [

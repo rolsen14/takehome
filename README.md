@@ -1,23 +1,17 @@
-# Dropback Take-Home App
+# Dropback Take-Home Monorepo
 
 ## Prerequisites
 
-- Node.js (v18+ recommended)
+- Node.js (v20+ recommended)
 - NPM package manager
 
 ## Setup
 
-1. Fork the repository, clone down your fork, and install dependencies:
+1. Fork this repository, install npm dependencies, etc.
 
-```sh
-git clone <repository-url>
-cd takehome
-npm install
-```
+2. Set up Supabase (local PostgresSQL instance):
 
-2. Set up Supabase:
-
-You'll need to set up a local Supabase instance (check out [this guide](https://supabase.com/docs/guides/local-development)). Then add your local anon key to `/apps/web/app/api/supabase.ts`.
+A database is scaffolded in the `supabase` directory, but you'll need set up and run the Supabase container (check out [this guide](https://supabase.com/docs/guides/local-development)).
 
 3. Start the development server:
 
@@ -55,9 +49,12 @@ https://site.web.api.espn.com/apis/common/v3/sports/basketball/mens-college-bask
 
 #### Supabase
 
-- **Supabase**: [Docs](https://supabase.io/docs)
+- **[Supabase Docs](https://supabase.io/docs)**
 
 #### Next.js
 
-- **Next.js**: [Docs](https://nextjs.org/docs)
-# takehome
+- **[Next.js Docs](https://nextjs.org/docs)**
+
+#### Turborepo
+
+- **[Turborepo Docs](https://turborepo.com/docs)**
