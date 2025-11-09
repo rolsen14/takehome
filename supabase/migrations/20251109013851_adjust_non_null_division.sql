@@ -1,0 +1,2 @@
+ALTER TABLE teams
+ALTER COLUMN division DROP NOT NULL;
