@@ -116,18 +116,12 @@
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
   }
 
+  .compareButtonContainer .clearButton {
+    background-color: lightgray;
+    color: black;
+  }
+
   .header p {
-    color: #aaa;
-  }
-
-  .select {
-    background-color: rgba(255, 255, 255, 0.05);
-    border-color: rgba(255, 255, 255, 0.1);
-    color: inherit;
-  }
-
-  .chartPlaceholder {
-    border-color: rgba(255, 255, 255, 0.1);
     color: #aaa;
   }
 }
@@ -135,5 +129,10 @@
 @media (max-width: 768px) {
   .container {
     padding: 1rem;
+  }
+
+  .comparisonArea .playerCards {
+    overflow-x: scroll;
+    gap: 2rem;
   }
 }

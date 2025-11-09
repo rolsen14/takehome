@@ -48,3 +48,13 @@
 .team img {
   max-height: 35px;
 }
+
+@media (prefers-color-scheme: dark) {
+  .playerTable th {
+    background-color: #4f4f4f;
+  }
+  
+  .playerTable tr:hover {
+    background-color: #4f4f4f;
+  }
+}

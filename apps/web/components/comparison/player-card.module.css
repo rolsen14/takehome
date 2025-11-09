@@ -38,3 +38,9 @@
 .team img {
   max-height: 35px;
 }
+
+@media (prefers-color-scheme: dark) {
+    .playerCard dd {
+        color: #ababab;
+      }
+  }
