@@ -62,8 +62,9 @@ export const PlayerTable = ({
                 <input
                   value={player.id}
                   checked={selectedPlayerIds.includes(player.id)}
-                  onChange={handleCheckboxChange}
+                  //onChange={handleCheckboxChange} // TODO: fix bug with nested onClick events :)
                   type="checkbox"
+                  readOnly
                 />
               </td>
               <td>{player.name}</td>
