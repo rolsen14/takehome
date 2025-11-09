@@ -7,8 +7,8 @@ import { isESPNError } from "../../../utils/api";
 import { supabase } from "../supabase";
 
 const SPORT_CONFIG = {
-  sport: "football",
-  league: "college-football",
+  sport: "volleyball",
+  league: "womens-college-volleyball",
   season: "2025",
 };
 
