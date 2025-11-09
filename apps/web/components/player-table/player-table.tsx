@@ -8,6 +8,11 @@ interface PlayerTableProps {
   setSelectedPlayerIds: Dispatch<SetStateAction<number[]>>;
 }
 
+// Future Enhancements
+// + pagination / URL search params so that all players aren't fetched at once
+// + add a search bar
+// + ability to filter by team, position, year, etc
+// + use an actual <button> for the <tr> clickability for accessibility reasons
 export const PlayerTable = ({
   players,
   selectedPlayerIds,
@@ -26,7 +31,7 @@ export const PlayerTable = ({
       ]);
     } else {
       setSelectedPlayerIds((previousIds) =>
-        previousIds.filter((id) => id !== toSelect),
+        previousIds.filter((id) => id !== toSelect)
       );
     }
   };
