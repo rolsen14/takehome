@@ -107,7 +107,6 @@ async function fetchAthletesFromESPN(teamId: string) {
       headers: { "Content-Type": "application/json" },
     });
     const data = await response.json();
-    console.log(data);
 
     if (isESPNError(data)) {
       throw new Error(`ESPN API returned ${JSON.stringify(data)}`);
