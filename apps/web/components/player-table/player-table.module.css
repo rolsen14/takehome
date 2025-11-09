@@ -1,0 +1,50 @@
+.playerTable {
+  margin-top: 3rem;
+  overflow-x: auto;
+  max-height: 400px;
+  overflow-y: scroll;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.playerTable table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.playerTable th,
+.playerTable td {
+  padding: 0.75rem;
+  text-align: left;
+  border-bottom: 1px solid #eee;
+}
+
+.playerTable td input {
+  height: 18px;
+  width: 18px;
+  border-radius: 8px;
+  margin-top: 0.5rem;
+}
+
+.playerTable tr:hover {
+  background-color: #f9f9f9;
+  cursor: pointer;
+}
+
+.playerTable th {
+  font-weight: 500;
+  background-color: #f5f5f5;
+}
+
+.playerTable tr:hover {
+  background-color: #f9f9f9;
+}
+
+.team {
+  display: flex;
+  align-items: center;
+  column-gap: 0.75rem;
+}
+
+.team img {
+  max-height: 35px;
+}

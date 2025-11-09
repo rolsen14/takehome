@@ -1,8 +1,10 @@
 "use server";
 
-import { createClient } from "../supabase";
-
-const supabase = createClient();
+import {
+  FullDropbackPlayer,
+  FullDropbackPlayerWithStats,
+} from "../../../types/athlete";
+import { supabase } from "../supabase";
 
 /**
  * Fetches all players from the database
@@ -11,38 +13,16 @@ export async function getPlayers() {
   try {
     const { data, error } = await supabase
       .from("players")
-      .select("*")
+      .select("*, team: teams ( name, image_url )")
       .order("name");
 
     if (error) {
       throw error;
     }
 
-    return data;
+    return data as FullDropbackPlayer[];
   } catch (error) {
     console.error("Error fetching players:", error);
-    return [];
-  }
-}
-
-/**
- * Fetches player stats for specific players
- * @param playerIds - Array of player IDs to fetch stats for
- */
-export async function getPlayerStats(playerIds: string[]) {
-  try {
-    const { data, error } = await supabase
-      .from("player_stats")
-      .select("*")
-      .in("player_id", playerIds);
-
-    if (error) {
-      throw error;
-    }
-
-    return data;
-  } catch (error) {
-    console.error("Error fetching player stats:", error);
     return [];
   }
 }
@@ -51,13 +31,13 @@ export async function getPlayerStats(playerIds: string[]) {
  * Fetches player data with stats combined
  * @param playerId - Player ID to fetch data for
  */
-export async function getPlayerWithStats(playerId: string) {
+export async function getPlayerWithStats(playerId: number) {
   try {
     // Fetch player data
     const { data: playerData, error: playerError } = await supabase
       .from("players")
-      .select("*")
-      .eq("player_id", playerId)
+      .select("*, team: teams ( name, image_url )")
+      .eq("id", playerId)
       .single();
 
     if (playerError) {
@@ -66,20 +46,24 @@ export async function getPlayerWithStats(playerId: string) {
 
     // Fetch player stats
     const { data: statsData, error: statsError } = await supabase
-      .from("player_stats")
+      .from("player_stat")
       .select("*")
-      .eq("player_id", playerId)
-      .single();
+      .eq("player_id", playerId);
 
     if (statsError && statsError.code !== "PGRST116") {
       // PGRST116 is "No rows returned"
       throw statsError;
     }
 
+    const statsMap = new Map<string, string>();
+    statsData?.forEach((row) => {
+      statsMap.set(row.stat_name, row.stat_value);
+    });
+
     // Combine the data
     return {
       ...playerData,
-      stats: statsData || null,
+      stats: statsMap || null,
     };
   } catch (error) {
     console.error(`Error fetching player data for ${playerId}:`, error);
@@ -88,18 +72,21 @@ export async function getPlayerWithStats(playerId: string) {
 }
 
 /**
- * Compares two players
- * @param player1Id - First player ID
- * @param player2Id - Second player ID
+ * Gathers statistics for a given list of players.
+ *
+ * @param playerIds - list of player IDs to compare
  */
-export async function comparePlayers(player1Id: string, player2Id: string) {
+export async function comparePlayers(playerIds: number[]) {
   try {
-    const player1 = await getPlayerWithStats(player1Id);
-    const player2 = await getPlayerWithStats(player2Id);
+    const players = [];
+    for (const id of playerIds) {
+      const player = await getPlayerWithStats(id);
+      players.push(player);
+    }
 
-    return { player1, player2 };
+    return players as FullDropbackPlayerWithStats[];
   } catch (error) {
     console.error("Error comparing players:", error);
-    return { player1: null, player2: null };
+    return [];
   }
 }

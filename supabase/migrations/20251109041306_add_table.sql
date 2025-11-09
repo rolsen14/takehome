@@ -1,0 +1,7 @@
+-- PLAYER STATS
+CREATE TABLE IF NOT EXISTS player_stat (
+  id SERIAL PRIMARY KEY,
+  player_id INTEGER NOT NULL REFERENCES players,
+  stat_name TEXT NOT NULL,
+  stat_value TEXT NOT NULL
+);
