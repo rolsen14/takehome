@@ -1,14 +1,13 @@
-import { ESPNErrorResponse } from "../types/api";
+import { ESPNErrorResponse, espnErrorSchema } from "../types/api";
 
+/**
+ * Helper function to determine if a given input represents an error
+ * from the ESPN hidden APIs
+ *
+ * @param data raw espn response
+ * @returns boolean representing if input is an error
+ */
 export function isESPNError(data: unknown): data is ESPNErrorResponse {
-  // TODO: validate ESPN error response format + consistency
-  // across hidden API endpoints
-  if (
-    data !== null &&
-    typeof data === "object" &&
-    ("code" in data || "error" in data)
-  ) {
-    return true;
-  }
-  return false;
+  const result = espnErrorSchema.safeParse(data);
+  return result.success;
 }

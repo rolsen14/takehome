@@ -26,7 +26,7 @@ export const PlayerTable = ({
       ]);
     } else {
       setSelectedPlayerIds((previousIds) =>
-        previousIds.filter((id) => id !== toSelect)
+        previousIds.filter((id) => id !== toSelect),
       );
     }
   };

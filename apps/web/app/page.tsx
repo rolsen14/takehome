@@ -19,21 +19,9 @@ import {
   FullDropbackPlayerWithStats,
 } from "../types/athlete";
 import { PlayerStatForChart } from "../types/stat";
-import { camelCaseToWords } from "../utils/display";
+import { BLUE_SHADES, camelCaseToWords } from "../utils/display";
 import { comparePlayers, getPlayers } from "./api/actions";
 import styles from "./page.module.css";
-
-const BLUE_SHADES: string[] = [
-  "#107AB0",
-  "#0047AB",
-  "#4169E1",
-  "#6495ED",
-  "#ADD8E6",
-  "#89CFF0",
-  "#000080",
-  "#191970",
-  "#4682B4",
-];
 
 export default function Home() {
   const [players, setPlayers] = useState<FullDropbackPlayer[]>();
@@ -132,6 +120,7 @@ export default function Home() {
               <div className={styles.playerCards}>
                 {playerStats.map((playerStat) => (
                   <PlayerCard
+                    key={playerStat.id}
                     statsToCompare={statsToCompare}
                     playerStat={playerStat}
                   />

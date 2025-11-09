@@ -1,3 +1,43 @@
+import z from "zod";
+
+/**
+ * For validating raw ESPN error response
+ */
+export const espnErrorSchema = z.union([
+  z.object({
+    code: z.string().nonempty(),
+  }),
+  z.object({
+    error: z.string(),
+  }),
+]);
+
+/**
+ * For validating raw ESPN data input
+ */
+export const espnTeamSchema = z.object({
+  id: z.coerce.number().int().nonnegative(),
+  slug: z.string(),
+  abbreviation: z.string(),
+  displayName: z.string().refine((val) => val !== "null", {
+    message: 'displayName cannot be "null"',
+  }),
+  shortDisplayName: z.string(),
+  name: z.string().refine((val) => val !== "null", {
+    message: 'name cannot be "null"',
+  }),
+  nickname: z.string(),
+  location: z.string().nonempty(),
+  color: z.string(),
+  isActive: z.literal(true),
+  isAllStar: z.boolean(),
+  logos: z.array(
+    z.object({
+      href: z.string(),
+    }),
+  ),
+});
+
 export interface ESPNErrorResponse {
   code: number;
   message?: string;

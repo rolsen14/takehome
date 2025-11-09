@@ -1,5 +1,5 @@
 import { faker } from "@faker-js/faker";
-import { ESPNAthlete, ESPNTeam } from "../../../types/api";
+import { ESPNAthlete, ESPNTeam, espnTeamSchema } from "../../../types/api";
 import { DropbackPlayer, mapToDropbackPlayer } from "../../../types/athlete";
 import { PlayerStat } from "../../../types/stat";
 import { DropbackTeam, mapToDropbackTeam } from "../../../types/team";
@@ -20,8 +20,7 @@ async function fetchTeamsFromESPN() {
     console.time("fetchTeamsFromESPN");
 
     const baseUrl = "https://site.api.espn.com/apis/site/v2/sports";
-    const endpoint = `${baseUrl}/${SPORT_CONFIG.sport}/${SPORT_CONFIG.league}/teams?limit=50`;
-    // NOTE: selected limit for take-home purposes, would need to determine actual reasonable limitations/batching if this was prod
+    const endpoint = `${baseUrl}/${SPORT_CONFIG.sport}/${SPORT_CONFIG.league}/teams?limit=100`; // NOTE: limit 100 for take-home purposes
 
     console.log(`Fetching teams from: ${endpoint}`);
 
@@ -32,17 +31,15 @@ async function fetchTeamsFromESPN() {
       throw new Error(`ESPN API returned ${JSON.stringify(data)}`);
     }
     const teams = data.sports[0].leagues[0].teams.map(
-      (t: { team: ESPNTeam }) => t.team
+      (t: { team: ESPNTeam }) => t.team,
     );
 
-    // TODO: use zod for filtering/validations
+    // zod validation for raw data, gracefully skip what does not match
     const filteredTeams: ESPNTeam[] = [];
     for (const team of teams) {
-      console.log(JSON.stringify(team));
-      if ("name" in team && team.name !== "null") {
-        if ("id" in team && Number(team.id) > 0) {
-          filteredTeams.push(team);
-        }
+      const result = espnTeamSchema.safeParse(team);
+      if (result.success) {
+        filteredTeams.push(team);
       }
     }
 
@@ -191,8 +188,7 @@ async function fetchPlayerStatsSeed(playerId: number) {
  */
 async function storeTeamsInSupabase(teams: DropbackTeam[]) {
   try {
-    // TODO: ensure there are no duplicates in input, otherwise this will throw
-    // a constraint error.
+    // TODO: check for duplicate input to avoid constraint error
     const { data, error } = await supabase
       .from("teams")
       .upsert(teams, { onConflict: "name" })
@@ -271,20 +267,18 @@ export async function GET() {
         console.warn("No athletes found for team: " + team.name);
       } else {
         const mappedPlayers = athletes.map((player) =>
-          mapToDropbackPlayer(player, team.id)
+          mapToDropbackPlayer(player, team.id),
         );
         const playersWithIds = await storePlayersInSupabase(mappedPlayers);
 
-        // For each player, fetch their stats and store them
-        // Note: In a production environment, you might want to implement
-        // rate limiting or batching to avoid overwhelming the ESPN API
+        // TODO: implement batching to avoid overwhelming the ESPN API
         for (const player of playersWithIds) {
           try {
             const statsData = await fetchPlayerStatsSeed(player.id);
             await storePlayerStatsInSupabase(statsData);
           } catch (error) {
             console.error(`Error processing player ${player.id}:`, error);
-            // Continue with the next player
+            // continue with the next player
           }
         }
       }
@@ -296,7 +290,7 @@ export async function GET() {
       }),
       {
         headers: { "Content-Type": "application/json" },
-      }
+      },
     );
   } catch (error) {
     return new Response(JSON.stringify({ error: String(error) }), {

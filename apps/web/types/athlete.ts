@@ -1,5 +1,4 @@
 import { ESPNAthlete } from "./api";
-import { PlayerStat } from "./stat";
 import { DropbackTeam } from "./team";
 
 // normalized format for our Supabase database
@@ -28,7 +27,7 @@ export interface FullDropbackPlayerWithStats extends DropbackPlayer {
 
 export const mapToDropbackPlayer = (
   player: ESPNAthlete,
-  dropback_team_id: number
+  dropback_team_id: number,
 ): Omit<DropbackPlayer, "id"> => {
   return {
     espn_player_id: player.id,

@@ -2,7 +2,7 @@ import { ESPNTeam } from "./api";
 
 // normalized format for our Supabase database
 export interface DropbackTeam {
-  id?: number; // TODO: solve for ESPN does not know our ID problem
+  id?: number;
   name: string;
   espn_team_id: string;
   abbreviation: string;

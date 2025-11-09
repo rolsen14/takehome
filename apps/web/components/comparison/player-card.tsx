@@ -9,7 +9,7 @@ interface PlayerCardProps {
 
 export const PlayerCard = ({ playerStat, statsToCompare }: PlayerCardProps) => {
   return (
-    <div key={playerStat.id} className={styles.playerCard}>
+    <div className={styles.playerCard}>
       <div className={styles.playerCardHeader}>
         <div className={styles.team}>
           <img src={playerStat.team.image_url} />
